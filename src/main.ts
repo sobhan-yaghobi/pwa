@@ -1,5 +1,5 @@
 import { setupCounter } from "./counter.ts"
 
-document.querySelector<HTMLDivElement>("#app")!.innerHTML = ``
+document.querySelector<HTMLDivElement>("#app")!.innerHTML = `<div><div/>`
 
 setupCounter(document.querySelector<HTMLButtonElement>("#counter")!)
