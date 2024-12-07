@@ -1,4 +1,5 @@
 const staticCacheName = "static-cache-v3"
+const dynamicCache = "dynamic-cache-v1"
 const assets = ["/", "/index.html", "/app.js"]
 
 self.addEventListener("install", (event) => {
@@ -17,5 +18,22 @@ self.addEventListener("activate", (event) => {
           .map((key) => caches.delete(key))
       )
     })
+  )
+})
+
+// Fetch Event
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then(
+      (cacheRes) =>
+        cacheRes ||
+        fetch(event.request).then((fetchRes) => {
+          return caches.open(dynamicCache).then((cache) => {
+            cache.put(event.request.url, fetchRes.clone())
+
+            return fetchRes
+          })
+        })
+    )
   )
 })
