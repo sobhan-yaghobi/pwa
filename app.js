@@ -21,5 +21,7 @@ if ("serviceWorker" in navigator) {
         }
       })
       .catch((error) => console.log("Service worker is not registered", error))
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error in registration of service worker ", error)
+  }
 }
