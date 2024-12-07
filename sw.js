@@ -1,6 +1,6 @@
 const staticCacheName = "static-cache-v3"
-const dynamicCache = "dynamic-cache-v1"
-const assets = ["/", "/index.html", "/app.js"]
+const dynamicCacheName = "dynamic-cache-v1"
+const assets = ["/", "/index.html", "/app.js", "/offline.html"]
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -14,7 +14,7 @@ self.addEventListener("activate", (event) => {
       console.log("keys : ", keys)
       return Promise.all(
         keys
-          .filter((key) => key !== staticCacheName)
+          .filter((key) => key !== staticCacheName && key !== dynamicCacheName)
           .map((key) => caches.delete(key))
       )
     })
@@ -24,16 +24,23 @@ self.addEventListener("activate", (event) => {
 // Fetch Event
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then(
-      (cacheRes) =>
-        cacheRes ||
-        fetch(event.request).then((fetchRes) => {
-          return caches.open(dynamicCache).then((cache) => {
-            cache.put(event.request.url, fetchRes.clone())
+    caches
+      .match(event.request)
+      .then(
+        (cacheRes) =>
+          cacheRes ||
+          fetch(event.request).then(async (fetchRes) => {
+            return caches.open(dynamicCacheName).then((cache) => {
+              cache.put(event.request.url, fetchRes.clone())
 
-            return fetchRes
+              return fetchRes
+            })
           })
-        })
-    )
+      )
+      .catch(() => {
+        if (event.request.url.indexOf(".html") > -1) {
+          return caches.match("/offline.html")
+        }
+      })
   )
 })
