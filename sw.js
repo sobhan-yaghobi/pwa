@@ -23,24 +23,23 @@ self.addEventListener("activate", (event) => {
 
 // Fetch Event
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches
-      .match(event.request)
-      .then(
-        (cacheRes) =>
-          cacheRes ||
-          fetch(event.request).then(async (fetchRes) => {
-            return caches.open(dynamicCacheName).then((cache) => {
-              cache.put(event.request.url, fetchRes.clone())
-
-              return fetchRes
-            })
-          })
-      )
-      .catch(() => {
-        if (event.request.url.indexOf(".html") > -1) {
-          return caches.match("/offline.html")
-        }
-      })
-  )
+  // event.respondWith(
+  //   caches
+  //     .match(event.request)
+  //     .then(
+  //       (cacheRes) =>
+  //         cacheRes ||
+  //         fetch(event.request).then(async (fetchRes) => {
+  //           return caches.open(dynamicCacheName).then((cache) => {
+  //             cache.put(event.request.url, fetchRes.clone())
+  //             return fetchRes
+  //           })
+  //         })
+  //     )
+  //     .catch(() => {
+  //       if (event.request.url.indexOf(".html") > -1) {
+  //         return caches.match("/offline.html")
+  //       }
+  //     })
+  // )
 })

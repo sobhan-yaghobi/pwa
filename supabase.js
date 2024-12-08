@@ -1,0 +1,8 @@
+export const todoFetchUrl =
+  "https://yooiaidlyydofvfcxfuj.supabase.co/rest/v1/todos"
+
+export const authorizationToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlvb2lhaWRseXlkb2Z2ZmN4ZnVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM2NzU3MzgsImV4cCI6MjA0OTI1MTczOH0.sM2jygdiZPFgnFwsNC85Newo1KOJd_IONlzM9mu0HcY"
+
+export const apiKey =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlvb2lhaWRseXlkb2Z2ZmN4ZnVqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM2NzU3MzgsImV4cCI6MjA0OTI1MTczOH0.sM2jygdiZPFgnFwsNC85Newo1KOJd_IONlzM9mu0HcY"

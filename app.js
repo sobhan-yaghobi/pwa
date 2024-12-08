@@ -1,3 +1,5 @@
+import { apiKey, authorizationToken, todoFetchUrl } from "./supabase.js"
+
 if ("serviceWorker" in navigator) {
   try {
     navigator.serviceWorker
@@ -25,3 +27,46 @@ if ("serviceWorker" in navigator) {
     console.log("Error in registration of service worker ", error)
   }
 }
+
+const getTodos = async () => {
+  const res = await fetch(`${todoFetchUrl}?select=*`, {
+    headers: {
+      apikey: apiKey,
+      Authorization: authorizationToken,
+    },
+  })
+  const todos = await res.json()
+  return todos
+}
+
+const createTodoElements = (todos) =>
+  todos?.map(
+    (todo) => `
+    <li class="todo-item" data-id="${todo.id}">
+      <h1 class="todo-item__title">${todo.title}</h1>
+      <p class="todo-item__description">${todo.description}</p>
+      ${
+        todo.isCompleted
+          ? `
+          <button class="todo-item__button button-danger">un complete</button>
+          `
+          : `
+          <button class="todo-item__button button-success">complete</button>
+      `
+      }
+    </li>
+  `
+  )
+
+const renderTodoItems = async () => {
+  const todos = await getTodos()
+  const todosItemsElements = createTodoElements(todos)
+
+  const todoListElm = document.querySelector("ul#todo-list")
+  todoListElm.innerHTML = ""
+  todoListElm.insertAdjacentHTML("beforeend", todosItemsElements?.join(""))
+}
+
+window.addEventListener("load", () => {
+  renderTodoItems()
+})
